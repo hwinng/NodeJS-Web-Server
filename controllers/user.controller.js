@@ -1,38 +1,67 @@
 var shortid = require('shortid');	
 var db = require('../db');
 
-module.exports.index = function(req, res) {
-	res.redirect('/');
+module.exports.index = (req, res) => {
+  res.render("users/index", {
+    users: db.get("users").value()
+  });
 }
 
-module.exports.search = function(req, res){
-	var name = req.query.name;
-
-	var matchedUsers = db.get("users").value().filter(function(user){
-		return user.name.toLowerCase().indexOf(name.toLowerCase()) >= 0;
-	});
-
-	res.render('index', {
-		users: matchedUsers
-	})
+//user searching
+module.exports.search = (req, res) => {
+  var q = req.query.q;
+  var matchedUsers = db
+    .get("users")
+    .value()
+    .filter(user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1);
+  res.render("users", {
+    users: matchedUsers,
+    values: q
+  });
 };
 
-module.exports.create = function(req, res){
-	res.render('users/create');
+//user creating
+module.exports.create = (req, res) => {
+  res.render("users/create");
 };
 
-module.exports.postCreate = function(req, res){
-	req.body.id = shortid.generate();
-	db.get("users").push(req.body).write();
-
-	res.redirect('/');
+module.exports.postCreate = (req, res) => {
+  req.body.id = shortid.generate();
+  req.body.avatar = req.file.path;
+  
+  db.get("users")
+    .push(req.body)
+    .write();
+  
+  res.redirect("/users");
 };
 
-module.exports.getID = function(req, res){
-	var id = req.params.id;
-	var user = db.get('users').find( {id: id} ).value();
+//user deleting
+module.exports.delete = (req, res) => {
+  var id = req.params.id;
+  db.get("users")
+    .remove({ id: id })
+    .write();
+  res.redirect("/users");
+};
 
-	res.render('users/view', {
-		user: user
-	})	
+//editing
+module.exports.editing = (req, res) => {
+  var id = req.params.id;
+  var user = db
+    .get("users")
+    .find({ id: id })
+    .value();
+  res.render("users/edit", {
+    user: user
+  });
+};
+
+module.exports.postEditing = (req, res) => {
+  var id = req.params.id;
+  db.get("users")
+    .find({ id: id })
+    .assign({ name: req.body.name })
+    .write();
+  res.redirect("/users");
 };

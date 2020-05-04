@@ -1,0 +1,21 @@
+extends ../layout/common
+block content
+  h1 Users
+  form(action="/users/search" method="GET")
+    input(type="text", name="q", value=values ? values.name : "")
+    button Search
+  a(href="/users/create") NewUser
+ 
+  table.table
+    tr
+      th Avatar
+      th Name
+      th Action
+    each user in users
+      tr
+        td= user.name 
+        td
+          a.btn.btn-info(href="/users/edit/" + user.id) Edit
+          a.btn.btn-info.ml-1(href="/users/delete/" + user.id) Delete
+          a.btn.btn-info.ml-1(href="/users/profile" + user.id) Profile
+        

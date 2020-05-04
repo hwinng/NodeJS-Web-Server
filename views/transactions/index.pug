@@ -1,0 +1,31 @@
+extends ../layout/common
+block content
+  h1 Transactions
+  a.btn.btn-primary(href="/transactions/create") New transaction
+  
+  table.table
+    tr
+      th Action
+      th Name
+      th Book
+      th Status
+    each transaction in transactions
+      tr
+        td
+          a(href='/transactions/'+transaction.id+'/complete') Finish
+        td= transaction.userId
+        td= transaction.bookId
+        td= transaction.check
+        
+  nav(aria-label='Page navigation example')
+  
+  ul.pagination.justify-content-center.mt-5
+    li.page-item.disabled
+      a.page-link(href='#', tabindex='-1') Previous
+    li.page-item
+      a.page-link(href='/transactions?page=1') 1
+    li.page-item
+      a.page-link(href='/transactions?page=2') 2
+    li.page-item
+      a.page-link(href='#') Next     
+  

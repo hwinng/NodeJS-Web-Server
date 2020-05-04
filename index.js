@@ -1,30 +1,45 @@
-var express = require('express');
-var cookieParser = require('cookie-parser');
+const express = require("express");
+const app = express();
+var db = require("./db");
+var cookieParser = require("cookie-parser");
 
-var userRoute = require('./routes/user.route');
-var authRoute = require('./routes/auth.route')
+var booksRoute = require("./routes/books.route");
+var usersRoute = require("./routes/users.route");
+var transRoute = require("./routes/trans.route");
+var authRoute = require("./routes/auth.route");
 
-var port = 9090;
-var app = express();
+var middleAuth = require("./middlewares/requireAuth");
 
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.set("view engine", "pug");
+app.set("views", "./views");
 
-app.use(express.static('public'));
+app.use(cookieParser('sadasd35378'));
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-app.set('view engine', 'pug');
-app.set('views', './views');
-
-//homepage
-app.get('/', function(req, res){
-	res.render('index', {
-		users: db.get("users").value()
-	});
+//home
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
-app.use('/users', userRoute);
-app.use('/auth', authRoute);
+function countCookieMiddleware(req, res, next) {
+  if (req.cookies) {
+    var count = req.cookies.count
+    res.cookie('count', ++count)
+  } else {
+    res.cookie('count', 0)
+  }
 
-app.listen(port, function(){
-	console.log('Server listening on port ' + port);
+  next()
+}
+
+app.use("/", countCookieMiddleware);
+app.use("/books",middleAuth.requireAuth, booksRoute);
+app.use("/users",middleAuth.requireAuth, usersRoute);
+app.use("/transactions", middleAuth.requireAuth, transRoute);
+app.use("/auth", authRoute);
+
+app.listen(process.env.PORT, () => {
+  console.log("Server listening on port " + process.env.PORT);
 });
