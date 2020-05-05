@@ -21,6 +21,8 @@ body
                         a.nav-link(href='/transactions') Transactions
             
             if user
-              p=user.name
+                .d-flex
+                    img#profileAvatar.mr-2(src=user.avatar, width="32")
+                    p=user.name
     .container.pt-5
           block content

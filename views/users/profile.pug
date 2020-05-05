@@ -1,0 +1,11 @@
+extends ../layout/common
+block content
+	h1 Update Profile User
+	form(action="/users/profile/"+user.id,method="POST", enctype="multipart/form-data")
+		.form-group
+			label(for='name') Name 
+			input#name.ml-2(type="text", name="name",value=values ? values.name : "")
+		.form-group
+			label(for='avatar') Avatar
+			input#avatar.form-control-file(name='avatar', type='file')
+		button.btn.btn-primary Update Profile

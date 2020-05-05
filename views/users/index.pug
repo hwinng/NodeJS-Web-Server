@@ -13,9 +13,11 @@ block content
       th Action
     each user in users
       tr
+        td
+          img#profileAvatar(src=user.avatar, width="64")
         td= user.name 
         td
           a.btn.btn-info(href="/users/edit/" + user.id) Edit
           a.btn.btn-info.ml-1(href="/users/delete/" + user.id) Delete
-          a.btn.btn-info.ml-1(href="/users/profile" + user.id) Profile
+          a.btn.btn-info.ml-1(href="/users/profile/" + user.id) Profile
         

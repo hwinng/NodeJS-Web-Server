@@ -6,7 +6,7 @@ var validate = require('../validation/user.validation')
 var db = require('../db');
 var router = express.Router();
 
-var upload = multer({ dest: './publics/uploads/'})
+var upload = multer({ dest: './public/uploads/'})
 //users
 router.get("/", controller.index);
 
@@ -28,5 +28,9 @@ router.get("/delete/:id", controller.delete);
 router.get("/edit/:id", controller.editing);
 
 router.post("/edit/:id", controller.postEditing);
+
+//update profile
+router.get('/profile/:id', controller.profile);
+router.post('/profile/:id', upload.single('avatar'), controller.postProfile);
 
 module.exports = router;  

@@ -23,33 +23,36 @@
   ],
   "users": [
     {
-      "name": "user5",
-      "id": "U0Kkq3OWb",
-      "email": "a@edu.com",
-      "password": "$2b$10$LTO4uCu0P6IvYKQGv1WRkekijDRC0ioDZQBZZVv.o26CIG909znKu",
-      "wrongLoginCount": 1
-    },
-    {
-      "name": "user4",
-      "id": "zP6XhSFXy",
+      "name": "Lena",
+      "id": "mvlfeNDyL",
       "email": "b@edu.com",
       "password": "$2b$10$iljH5wOBQBEFcQaYqncJgeapLZBsb0hN6UaB711wKS8QWxxtQ80g.",
-      "wrongLoginCount": 1
+      "avatar": "uploads/3000be119e76ffb919b25d31018bb0f0"
     },
     {
-      "name": "user2",
-      "id": "1e0LH6m3D",
-      "email": "d@edu.com",
-      "password": "123123"
+      "name": "Lisa",
+      "id": "balZrdR7P",
+      "email": "a@edu.com",
+      "password": "$2b$10$LTO4uCu0P6IvYKQGv1WRkekijDRC0ioDZQBZZVv.o26CIG909znKu",
+      "avatar": "uploads/d6262a86ccea70f3be8d606a77bb6570"
     },
     {
-      "name": "user1",
-      "id": "ZwTP7HT24",
-      "email": "e@edu.com",
-      "password": "123123"
+      "name": "Jisoo",
+      "id": "Q9rG5kP_a",
+      "avatar": "uploads/505ef914eb71ed5b346d71e49bdc27a9"
+    },
+    {
+      "name": "Jennie",
+      "id": "Kzav-wZ5V",
+      "avatar": "uploads/7e99abf045e3f5ea46ad18eec9f58020"
     }
   ],
   "transactions": [
+    {
+      "userId": "user4",
+      "bookId": "book3",
+      "id": "YMH7hOcpU"
+    },
     {
       "userId": "user2",
       "bookId": "book2",

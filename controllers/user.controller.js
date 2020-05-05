@@ -27,7 +27,8 @@ module.exports.create = (req, res) => {
 
 module.exports.postCreate = (req, res) => {
   req.body.id = shortid.generate();
-  req.body.avatar = req.file.path;
+  req.body.avatar = req.file.path.split('\\').slice(1).join('/');
+  
   
   db.get("users")
     .push(req.body)
@@ -62,6 +63,28 @@ module.exports.postEditing = (req, res) => {
   db.get("users")
     .find({ id: id })
     .assign({ name: req.body.name })
+    .write();
+  res.redirect("/users");
+};
+
+//update profile user
+module.exports.profile = (req, res) => {
+  var id = req.params.id;
+  var user = db
+    .get("users")
+    .find({ id: id })
+    .value();
+  res.render('users/profile', {
+    user: user
+  })
+}
+
+module.exports.postProfile = (req, res) => {
+  var id = req.params.id;
+  db.get("users")
+    .find({ id: id })
+    .assign({ name: req.body.name })
+    .assign({ avatar: req.file.path.split("\\").slice(1).join('/')})
     .write();
   res.redirect("/users");
 };
