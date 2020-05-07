@@ -14,7 +14,7 @@ block content
     each user in users
       tr
         td
-          img#profileAvatar(src=user.avatar, width="64")
+          img(src=user.avatar, width="64")
         td= user.name 
         td
           a.btn.btn-info(href="/users/edit/" + user.id) Edit

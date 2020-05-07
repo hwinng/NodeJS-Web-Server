@@ -1,11 +1,19 @@
 var shortid = require('shortid');	
 var db = require('../db');
 
+
 module.exports.index = (req, res) => {
-  res.render("books/index", {
-    books: db.get("books").value()
-  });
-};
+  
+  res.render("books/index",{
+    books: db.get('books').value() 
+  })
+}
+
+module.exports.action = (req, res) => {
+  res.render("books/view", {
+    books: db.get('books').value() 
+  })
+}
 
 module.exports.search = (req, res) => {
   var q = req.query.q;
@@ -25,6 +33,7 @@ module.exports.create = (req, res) => {
 
 module.exports.postCreate = (req, res) => {
   req.body.id = shortid.generate();
+  req.body.coverUrl = req.file.path.split('\\').slice(1).join('/');
   db.get("books")
     .unshift(req.body)
     .write();

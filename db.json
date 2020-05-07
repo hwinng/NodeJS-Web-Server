@@ -1,24 +1,22 @@
 {
   "books": [
     {
-      "title": "book4",
-      "description": "nice",
-      "id": "M3Dn47NAq"
+      "title": "How to chase a girl",
+      "description": "Blablalblabab",
+      "id": "1hDDMwtuV",
+      "coverUrl": "uploads/2b53fb2f5c186dcabd9af0fb9ed3e09b"
     },
     {
-      "title": "book3",
-      "description": "nice",
-      "id": "bIpzNMfk_"
+      "title": "Dating Tutorial",
+      "description": "Fuking good",
+      "id": "6_9ln76-e",
+      "coverUrl": "uploads/0833f2a9eab419eefde5413b8a4c4a8a"
     },
     {
-      "title": "book2",
-      "description": "nice",
-      "id": "7yRsvEIkv"
-    },
-    {
-      "title": "book1",
-      "description": "nice",
-      "id": "9RWdRrbIE"
+      "title": "Hỗ trợ làm bài design database",
+      "description": "Amazing",
+      "id": "ZnxrgI2pg",
+      "coverUrl": "uploads/0833f2a9eab419eefde5413b8a4c4a8a"
     }
   ],
   "users": [
@@ -96,5 +94,6 @@
       "id": "fhYjl3wV4",
       "check": "true"
     }
-  ]
+  ],
+  "sessions": []
 }

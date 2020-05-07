@@ -31,6 +31,8 @@ router.post("/edit/:id", controller.postEditing);
 
 //update profile
 router.get('/profile/:id', controller.profile);
-router.post('/profile/:id', upload.single('avatar'), controller.postProfile);
+router.post('/profile/:id', 
+			upload.single('avatar'), 
+			controller.postProfile);
 
 module.exports = router;  

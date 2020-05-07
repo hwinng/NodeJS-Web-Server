@@ -1,12 +1,18 @@
 var express = require('express');
-var shortid = require('shortid');
+var multer = require('multer');
+
 var controller = require('../controllers/books.controller');
+var middleAuth = require("../middlewares/requireAuth");
 
-var db = require('../db');
 var router = express.Router();
+var upload = multer({ dest: './public/uploads/'})
 
-// books
+
+//books
 router.get("/", controller.index);
+
+//books actions
+router.get('/action', middleAuth.requireAuth, controller.action);
 
 // books searching
 router.get("/search", controller.search);
@@ -14,7 +20,9 @@ router.get("/search", controller.search);
 //books creating
 router.get("/create", controller.create);
 
-router.post("/create", controller.postCreate);
+router.post("/create",
+	upload.single('coverUrl'),
+	controller.postCreate);
 
 //books deleting
 

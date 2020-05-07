@@ -2,7 +2,7 @@ var db = require("../db");
 module.exports.requireAuth = (req, res, next) => {
   
   if (!req.signedCookies.userId) {
-    res.redirect("auth/login");
+    res.redirect("/auth/login");
     return;
   }
 
@@ -12,7 +12,7 @@ module.exports.requireAuth = (req, res, next) => {
     .value();
 
   if (!user) {
-    res.redirect("auth/login");
+    res.redirect("/auth/login");
     return;
   }
   
