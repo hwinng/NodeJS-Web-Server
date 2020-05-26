@@ -2,7 +2,7 @@ extends ../layout/common
 block content
   h1 Check Completion
   form(action="/transactions/"+transaction.id+"/complete",  method="POST")
-    label Type the level of completion 
+    label Input the level of completion 
     br
     input(type="text", name="check")
     br

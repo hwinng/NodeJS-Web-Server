@@ -1,10 +1,10 @@
 {
   "books": [
     {
-      "title": "How to chase a girl",
-      "description": "Blablalblabab",
-      "id": "1hDDMwtuV",
-      "coverUrl": "uploads/2b53fb2f5c186dcabd9af0fb9ed3e09b"
+      "title": "NodeJS Server",
+      "description": "Amazing",
+      "id": "Dpw-gKZe1",
+      "coverUrl": "uploads/47a9a1e7e99b8ad26564c8b59d8903d5"
     },
     {
       "title": "Dating Tutorial",
@@ -28,11 +28,12 @@
       "avatar": "uploads/3000be119e76ffb919b25d31018bb0f0"
     },
     {
-      "name": "Lisa",
+      "name": "LaissaNel",
       "id": "balZrdR7P",
       "email": "a@edu.com",
       "password": "$2b$10$LTO4uCu0P6IvYKQGv1WRkekijDRC0ioDZQBZZVv.o26CIG909znKu",
-      "avatar": "uploads/d6262a86ccea70f3be8d606a77bb6570"
+      "avatar": "uploads/9b3c2d08d2534e1bdf6af4bcbd3aa596",
+      "wrongLoginCount": 1
     },
     {
       "name": "Jisoo",
@@ -60,7 +61,8 @@
     {
       "userId": "user5",
       "bookId": "book4",
-      "id": "qe24WFG22"
+      "id": "qe24WFG22",
+      "check": "finished"
     },
     {
       "userId": "user5",
@@ -86,7 +88,7 @@
       "userId": "user1",
       "bookId": "book3",
       "id": "5xWdf468G",
-      "check": ""
+      "check": "finished"
     },
     {
       "userId": "user3",
@@ -95,5 +97,30 @@
       "check": "true"
     }
   ],
-  "sessions": []
+  "sessions": [
+    {
+      "id": "5K23hy0R8",
+      "cart": {
+        "6_9ln76-e": 3,
+        "ZnxrgI2pg": 1,
+        "Dpw-gKZe1": 1
+      }
+    },
+    {
+      "id": "uBPIQDeh7",
+      "cart": {
+        "Dpw-gKZe1": 1,
+        "6_9ln76-e": 1,
+        "ZnxrgI2pg": 1
+      }
+    },
+    {
+      "id": "N0yk6N6Ft",
+      "cart": {
+        "Dpw-gKZe1": 2,
+        "ZnxrgI2pg": 6,
+        "6_9ln76-e": 3
+      }
+    }
+  ]
 }

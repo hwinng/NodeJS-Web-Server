@@ -12,6 +12,7 @@ block content
       th Title
       th Description
       th Buy
+
     each book in books
       tr
         td
@@ -19,5 +20,10 @@ block content
         td= book.title
         td= book.description
         td
-          a.btn.btn-primary(href="/cart/add/" + book.id) Add to cart
+          a.btn.btn-primary.mr-2(href="/cart/add/" + book.id) Add to cart 
+        
+          
+          
+
+      
         
