@@ -1,3 +1,7 @@
+
+// trước mình có thấy khi bấm nó sẽ hiển thị sô lượng mà nhỉ // hừm .. kệ đi //tớ lấy cái amount bên dưới nếu có nó hiện nhưng mà hình như sai 
+//ở chỗ là chỉ ấn vào add to cart mới hiện ra vì cái route đó mới hiện chứ kphai /books nên khi ấn vô /books k hiện nứa
+// i see
 html 
 head
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css")
@@ -15,14 +19,24 @@ body
                         a.nav-link(href='/users') Users
                     li.nav-item
                         a.nav-link(href='/transactions') Transactions
+                    li.nav-item
+                        a.nav-link(href='/transactions')
+  
+                    
             
             if user
                 .d-flex
                     img.mr-2(src=user.avatar, width="32")
                     p=user.name
-            if amount
-                a.btn.btn-primary(href="/transactions") Renting &nbsp
-                    span= amount
+            if quantity
+              a.btn.btn-primary.ml-2(href="/cart/rent") Rent(#{quantity})
+              
+               // ok thế xong show ra rồi 
+               // h đến đoạn chuyển đoạn kia qua transaction
+               //yeb
+               // ok hừm thằng cart đang cầm res.locals.listCart nhỉ ?
+               // phải làm ở trên cart thôoki qua đó thônào 
+               // jump to cart controller//vâng mlem
             
     .container.pt-5
           block content

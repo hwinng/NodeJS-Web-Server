@@ -38,11 +38,12 @@ function countCookieMiddleware(req, res, next) {
 }
 
 app.use("/", countCookieMiddleware);
+app.use("/cart", cartRoute);
 app.use("/books", booksRoute);
 app.use("/users",middleAuth.requireAuth, usersRoute);
 app.use("/transactions", middleAuth.requireAuth, transRoute);
 app.use("/auth", authRoute);
-app.use("/cart", cartRoute);
+
 
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port " + process.env.PORT);

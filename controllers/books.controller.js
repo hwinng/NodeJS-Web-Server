@@ -1,19 +1,21 @@
-var shortid = require('shortid');	
-var db = require('../db');
-
+var shortid = require("shortid");
+var db = require("../db");
 
 module.exports.index = (req, res) => {
-  
-  res.render("books/index",{
-    books: db.get('books').value() 
-  })
-}
+  // do it again //okie//ngon rùi
+  console.log(res.locals.quantity);
+  console.log(res.locals.listCart); //:) // để thằng listCart đó  // h ra thằng index.pug của book show ra đã//yeb qua đó thôi
+  res.render("books/index", {
+    books: db.get("books").value(),
+    quantity: res.locals.quantity
+  });
+};
 
 module.exports.action = (req, res) => {
   res.render("books/view", {
-    books: db.get('books').value() 
-  })
-}
+    books: db.get("books").value()
+  });
+};
 
 module.exports.search = (req, res) => {
   var q = req.query.q;
@@ -25,7 +27,7 @@ module.exports.search = (req, res) => {
     books: matchedBooks,
     question: q
   });
-}
+};
 
 module.exports.create = (req, res) => {
   res.render("books/create");
@@ -33,12 +35,15 @@ module.exports.create = (req, res) => {
 
 module.exports.postCreate = (req, res) => {
   req.body.id = shortid.generate();
-  req.body.coverUrl = req.file.path.split('\\').slice(1).join('/');
+  req.body.coverUrl = req.file.path
+    .split("\\")
+    .slice(1)
+    .join("/");
   db.get("books")
     .unshift(req.body)
     .write();
   res.redirect("/books");
-}
+};
 
 module.exports.delete = (req, res) => {
   var id = req.params.id;
@@ -70,4 +75,3 @@ module.exports.postUpdate = (req, res) => {
     .write();
   res.redirect("/books");
 };
-
