@@ -1,19 +1,22 @@
-var shortid = require('shortid');	
-var db = require('../db');
+var User = require('../models/users.model');
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+
+  var users = await User.find();
+
   res.render("users/index", {
-    users: db.get("users").value()
+    users: users
   });
 }
 
 //user searching
-module.exports.search = (req, res) => {
+module.exports.search = async (req, res) => {
+
+  var users = await User.find();
+
   var q = req.query.q;
-  var matchedUsers = db
-    .get("users")
-    .value()
-    .filter(user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1);
+
+  var matchedUsers = users.filter(user => user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1);
   res.render("users", {
     users: matchedUsers,
     values: q
@@ -21,18 +24,15 @@ module.exports.search = (req, res) => {
 };
 
 //user creating
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
   res.render("users/create");
 };
 
-module.exports.postCreate = (req, res) => {
-  req.body.id = shortid.generate();
+module.exports.postCreate = async (req, res) => {
   req.body.avatar = req.file.path.split('\\').slice(1).join('/');
+
+  var users = await User.find();
   
-  
-  db.get("users")
-    .push(req.body)
-    .write();
   
   res.redirect("/users");
 };

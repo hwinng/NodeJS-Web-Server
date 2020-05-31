@@ -1,11 +1,7 @@
-var nodemailer = require("nodemailer"); // khai báo sử dụng module nodemailer
 require("dotenv").config();
-
+var nodemailer = require("nodemailer");
 var md5 = require("md5");
-var bcrypt = require("bcrypt");
-
-var db = require("../db");
-
+var User = require("../models/users.model");
 
 module.exports.login = (req, res) => {
   res.render("auth/login");
@@ -15,10 +11,7 @@ module.exports.postLogin = async (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
 
-  var user = db
-    .get("users")
-    .find({ email: email })
-    .value();
+  var user = await User.findOne({email: email});
 
   if (!user) {
     res.render("auth/login", {
@@ -31,17 +24,18 @@ module.exports.postLogin = async (req, res) => {
   var loginCount = 0;
 
   var result = await bcrypt.compare(password, user.password);
+
   if (result) {
     res.cookie("userId", user.id, {
       signed: true
     });
     res.redirect("/transactions");
-  } else {
+  } 
+  else {
     ++loginCount;
-    db.get("users")
-      .find({ email: email })
-      .assign({ wrongLoginCount: loginCount })
-      .write();
+    User.findOne({ email: email })
+        .updateOne({ wrongLoginCount: loginCount })
+        
     res.render("auth/login", {
       errors: ["Wrong password."],
       values: req.body
@@ -51,11 +45,11 @@ module.exports.postLogin = async (req, res) => {
   var wrongLoginCount = parseInt(user.wrongLoginCount);
 
   if (wrongLoginCount > 4) {
-    alert("Check your email message box.");
+    
     res.render("auth/login");
 
     //sending email if wrongLoginCount > 4
-    var transporter = nodemailer.createTransport({
+    var transporter = await nodemailer.createTransport({
       service: "Gmail",
       auth: {
         user: process.env.USER,
@@ -84,10 +78,9 @@ module.exports.postLogin = async (req, res) => {
     }
 
     if ((email, password)) {
-      db.get("users")
-        .find({ email: email })
-        .assign({ wrongLoginCount: 0 })
-        .write();
+      User.findOne({ email: email })
+          .updateOne({ wrongLoginCount: 0 })
+       
     }
   }
 };
