@@ -1,16 +1,19 @@
 var shortid = require("shortid");
 
-var db = require("../db");
+// var db = require("../db");
+var Session = require('../models/sessions.model')
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   if (!req.signedCookies.sessionId) {
     var sessionId = shortid.generate();
     res.cookie("sessionId", sessionId, {
       signed: true
-    });
-    db.get("sessions")
-      .push({ id: sessionId })
-      .write();
+    }); 
+
+    await Session.create({_id:sessionId});
+    // db.get("sessions")
+      // .push({ id: sessionId })
+      // .write();
   } else {
     //mình thấy r
     // ei log ra kết quả có vẻ mlem được rồi
@@ -23,10 +26,7 @@ module.exports = (req, res, next) => {
     // nãy mình đứng ở cart controller nằm ở route cart nên books kô xài đc// yes đúng rồi //yeah
     // app.use(sessionMiddleware); mình có định nghĩ dòng này ngoài server.js này trên cả app.get("/") thì code sẽ chạy vào đây nên chắc chắn là res.local sẽ là của chung 
     // ok , phew h qua books xem sao 
-    let sessionDb = db
-      .get("sessions")
-      .find({ id: req.signedCookies.sessionId })
-      .value();
+    let sessionDb = await Session.findById(req.signedCookies.sessionId);
     //console.log('sessionDb', sessionDb)
 
     let quantity = 0;
@@ -36,10 +36,8 @@ module.exports = (req, res, next) => {
       for (var bookId in sessionDb.cart) {
         //  console.log(bookId);
         quantity += sessionDb.cart[bookId];
-        let book = db
-          .get("books")
-          .find({ id: bookId })
-          .value();
+        let book = await Session.findById(bookId)
+        
         book.num = sessionDb.cart[bookId];
         listCart.push(book);
       }

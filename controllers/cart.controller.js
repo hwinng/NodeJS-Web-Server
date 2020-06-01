@@ -1,7 +1,7 @@
-var db = require("../db");
+var Session = require('../models/sessions.model')
 var shortid = require("shortid");
 
-module.exports.addToCart = (req, res) => {
+module.exports.addToCart = async (req, res) => {
   var bookId = req.params.bookId;
   var sessionId = req.signedCookies.sessionId;
   var q = req.query.q;
@@ -10,20 +10,15 @@ module.exports.addToCart = (req, res) => {
     res.redirect("/books");
     return;
   }
-  var count = db
-    .get("sessions")
-    .find({ id: sessionId })
+  var count = await Session.findById(sessionId)
     .get("cart." + bookId, 0)
-    .value();
+ 	.value();
 
-  db.get("sessions")
-    .find({ id: sessionId })
+  await Session.findByIdAndUpdate(sessionId)
     .set("cart." + bookId, count + 1)
     .write();
 
-  var rentedBooks = db
-    .get("sessions")
-    .find({ id: sessionId })
+  var rentedBooks = await Session.findById(sessionId)
     .get("cart")
     .value();
 
@@ -36,7 +31,7 @@ module.exports.addToCart = (req, res) => {
   res.redirect("/books");
 };
 
-module.exports.rent = (req, res, next) => {
+module.exports.rent = async (req, res, next) => {
   var listCart = res.locals.listCart;
 
   if (res.locals.quantity === 0) {
@@ -44,10 +39,8 @@ module.exports.rent = (req, res, next) => {
   }
   
   //get user
-  var user = db
-    .get("users")
-    .find({ id: req.signedCookies.userId }) //error: can not read userId from undefined
-    .value();
+  var user = await Session.find({ id: req.signedCookies.userId }) //error: can not read userId from undefined
+  
   console.log("mlemm lem", user); //user undefined
   res.redirect("back");
   

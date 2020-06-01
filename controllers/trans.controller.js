@@ -1,47 +1,49 @@
-var shortid = require("shortid");
-var db = require("../db");
 
-module.exports.index = (req, res) => {
-  var page = parseInt(req.query.page) || 1;
-  var perPage = 5;
+var Transaction = require('../models/transactions.model');
+var Book = require('../models/books.model');
+var User = require('../models/users.model');
+
+module.exports.index = async (req, res) => {
+  // var page = parseInt(req.query.page) || 1;
+  // var perPage = 5;
   
-  var start = (page - 1) * perPage  ;
-  var end = page * perPage;
+  // var start = (page - 1) * perPage  ;
+  // var end = page * perPage;
   
+  var pagTrans = await Transaction.find() //slice(start, end);
   res.render("transactions/index", {
-    transactions: db.get("transactions").value().slice(start, end)
-  });
-};
-module.exports.create =(req, res) => {
-    res.render("transactions/create", {
-      books: db.get("books").value(),
-      users: db.get("users").value()
-    });
-  };
-module.exports.postCreate = (req, res) => {
-    req.body.id = shortid.generate();
-    db.get("transactions")
-      .unshift(req.body)
-      .write();
-    res.redirect("/transactions");
-  };
+    transactions: pagTrans
+  })
+}
+module.exports.create = async (req, res) => {
 
-module.exports.complete = (req, res) => {
+    var book = await Book.find();
+    var user = await User.find(); 
+    res.render("transactions/create", {
+      books: book,
+      users: user
+    });
+};
+module.exports.postCreate = async (req, res) => { 
+    await Transaction.create({
+                              userId: req.body.userId,
+                              bookId: req.body.bookId})
+      // .unshift(req.body)
+      // .write();
+    res.redirect("/transactions");
+};
+
+module.exports.complete = async (req, res) => {
   var id = req.params.id;
-  var transaction = db
-    .get("transactions")
-    .find({ id: id })
-    .value();
+  var transaction = await Transaction.findById(id);
   res.render("transactions/isCompleted", {
     transaction: transaction
   });
 };
 
-module.exports.postState = (req, res) => {
+module.exports.postState =  async (req, res) => {
   var id = req.params.id;
-  db.get("transactions")
-    .find({ id: id })
-    .assign({ check: req.body.check })
-    .write();
+  await Transaction.findById(id)
+                   .update({check:req.body.check})
   res.redirect("/transactions");
-};
+}

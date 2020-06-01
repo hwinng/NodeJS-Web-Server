@@ -1,13 +1,16 @@
 require("dotenv").config();
 var nodemailer = require("nodemailer");
 var md5 = require("md5");
+var bcrypt = require('bcrypt');
+
 var User = require("../models/users.model");
+var MailService = require("../services/mail");
 
 module.exports.login = (req, res) => {
   res.render("auth/login");
 };
 
-module.exports.postLogin = async (req, res) => {
+module.exports.postLoginV2 = async (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
 
@@ -21,7 +24,7 @@ module.exports.postLogin = async (req, res) => {
     return;
   }
 
-  var loginCount = 0;
+  var wrongLoginCount = user.wrongLoginCount || 0;
 
   var result = await bcrypt.compare(password, user.password);
 
@@ -29,58 +32,33 @@ module.exports.postLogin = async (req, res) => {
     res.cookie("userId", user.id, {
       signed: true
     });
-    res.redirect("/transactions");
+    await User.findOneAndUpdate({ email: email }, { 
+      wrongLoginCount: 0
+    }); // reset biến đếm
+    return res.redirect("/transactions"); // return rồi thì khỏi cần else ở dưới
   } 
-  else {
-    ++loginCount;
-    User.findOne({ email: email })
-        .updateOne({ wrongLoginCount: loginCount })
-        
-    res.render("auth/login", {
-      errors: ["Wrong password."],
-      values: req.body
-    });
-  }
-
-  var wrongLoginCount = parseInt(user.wrongLoginCount);
-
+  
+  await User.findOneAndUpdate({ email: email }, { 
+    wrongLoginCount: ++wrongLoginCount 
+  });
+  
   if (wrongLoginCount > 4) {
-    
-    res.render("auth/login");
-
     //sending email if wrongLoginCount > 4
-    var transporter = await nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.USER,
-        pass: process.env.PASSWORD
-      }
-    });
-    var mainOptions = {
-      from: "Flowers Sep",
+    await MailService.sendEmail({
       to: user.email,
-      subject: "Test Nodemailer",
-      text: "You recieved message from " + process.env.USER,
-      html:
-        "<p>We detect that you have forgot your password. Check it</b><ul><li>Username:" +
+      subject: "You have failed to login many times",
+      html: "<p>We detect that you have forgot your password. Check it</b><ul><li>Username:" +
         user.name +
         "</li><li>Email:" +
         email +
         "</li><li>Username:" +
         user.password +
         "</li></ul>"
-    };
-    
-    var info = await transporter.sendMail(mainOptions);
-    if (info) {
-      console.log("Message sent: " + info.response);
-      res.redirect("/");
-    }
-
-    if ((email, password)) {
-      User.findOne({ email: email })
-          .updateOne({ wrongLoginCount: 0 })
-       
-    }
+    });
   }
+
+  res.render("auth/login", {
+    errors: ["Wrong password."],
+    values: req.body
+  });
 };

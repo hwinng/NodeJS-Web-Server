@@ -16,18 +16,18 @@ var cartRoute = require('./routes/cart.route');
 var middleAuth = require("./middlewares/requireAuth");
 var sessionMiddleware = require("./middlewares/session.middleware");
 
-app.set("view engine", "pug");
-app.set("views", "./views");
+app.set("view engine", "pug");    
+app.set("views", "./views");    
 
 app.use(cookieParser('sadasd35378'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(sessionMiddleware);
+app.use(sessionMiddleware); 
 
 //home
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index");  
 });
 
 function countCookieMiddleware(req, res, next) {

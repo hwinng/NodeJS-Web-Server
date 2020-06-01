@@ -4,5 +4,5 @@ var router=express.Router();
 
 router.get('/login',controller.login);
 
-router.post('/login',controller.postLogin);
+router.post('/login',controller.postLoginV2);
 module.exports=router;
