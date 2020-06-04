@@ -4,7 +4,7 @@ var md5 = require("md5");
 var bcrypt = require('bcrypt');
 
 var User = require("../../models/users.model");
-var MailService = require("../services/mail");
+var MailService = require("../../services/mail");
 
 module.exports.login =  async(req, res) => {
   var users = await User.find();

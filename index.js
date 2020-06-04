@@ -7,15 +7,16 @@ var cookieParser = require("cookie-parser");
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
+var apiLoginRoute = require("./api/routes/login.route");
+var apiTransRoute = require("./api/routes/trans.route");
+var apiUserRoute = require("./api/routes/users.route");
+var apiBookRoute = require("./api/routes/books.route");
+
 var booksRoute = require("./routes/books.route");
 var usersRoute = require("./routes/users.route");
 var transRoute = require("./routes/trans.route");
 var authRoute = require("./routes/auth.route");
 var cartRoute = require('./routes/cart.route');
-var apiLoginRoute = require("./api/routes/login.route");
-var apitTransRoute = require("./api/routes/trans.route");
-var apiUserRoute = require("./api/routes/users.route");
-var apiBookRoute = require("./api/routes/books.route");
 
 var middleAuth = require("./middlewares/requireAuth");
 var sessionMiddleware = require("./middlewares/session.middleware");
@@ -51,7 +52,7 @@ function countCookieMiddleware(req, res, next) {
   next()
 }
 
-app.use("/", countCookieMiddleware);
+app.use("/",countCookieMiddleware);
 app.use("/cart", cartRoute);
 app.use("/books", booksRoute);
 app.use("/users",middleAuth.requireAuth, usersRoute);
