@@ -12,6 +12,8 @@ var usersRoute = require("./routes/users.route");
 var transRoute = require("./routes/trans.route");
 var authRoute = require("./routes/auth.route");
 var cartRoute = require('./routes/cart.route');
+var apiLoginRoute = require("./api/routes/login.route");
+var apitTransRoute = require("./api/routes/trans.route");
 
 var middleAuth = require("./middlewares/requireAuth");
 var sessionMiddleware = require("./middlewares/session.middleware");
@@ -19,7 +21,10 @@ var sessionMiddleware = require("./middlewares/session.middleware");
 app.set("view engine", "pug");    
 app.set("views", "./views");    
 
-app.use(cookieParser('sadasd35378'));
+
+app.use('/api/login', apiLoginRoute);
+app.use('/api/transactions', apiTransRoute);
+app.use(cookieParser('abcd5678'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
