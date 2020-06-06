@@ -1,0 +1,21 @@
+extends ../layout/common
+block content
+
+  h1 Shop
+  table.table
+    tr
+      th Cover Book
+      th Title
+      th Description
+      th Price
+      th 
+
+    each s in shop
+      tr
+        td
+          img(src=s.coverUrl, width="64")
+        td= s.title
+        td= s.description
+        td= s.price
+        td
+          a.btn.btn-primary.mr-2(href="#") Add to cart

@@ -1,5 +1,4 @@
 var express = require('express');
-var shortid = require('shortid');
 var controller = require('../controllers/trans.controller');
 
 

@@ -1,21 +1,16 @@
 var Book = require("../models/books.model");
 
-module.exports.index = async (req, res, next) => {
+module.exports.index = async (req, res) => {
   // do it again //okie//ngon rùi
   //console.log(res.locals.quantity);
   //console.log(res.locals.listCart); //:) // để thằng listCart đó  // h ra thằng index.pug của book show ra đã//yeb qua đó thôi
   
-  try {
     var books = await Book.find();
-    var a;
-    a.b();
     res.render("books/index", {
       books: books,
       quantity: res.locals.quantity
     });
-  }catch(error) {
-    next(error);
-  }
+ 
 };
 
 module.exports.action = async (req, res) => {

@@ -1,0 +1,28 @@
+extends ../layout/common
+block content
+  // cái block vars tức là khai báo bieenst xài chung như block content thế, vì mình muốn hiển thị trên thanh navbar nên mình sẽ truyền 
+  // truyền quantity từ đây đi
+  // ok bạn qua layout nha //oki
+  h1 Shop
+  form(action="/admin/shop/search" method="GET")
+    .form-group
+      input(type="text", name="q", value=question)
+      button.btn.btn-primary.ml-1 Search
+  a(href="/admin/shop/sell-book") Sell New Book
+  table.table
+    tr
+      th Cover Book
+      th Title
+      th Description
+      th Price
+      th Buy
+
+    each s in shop
+      tr
+        td
+          img(src=s.coverUrl, width="64")
+        td= s.title
+        td= s.description
+        td= s.price
+        td
+          a.btn.btn-primary.mr-2(href="/shop/"+ s.id + "books") Edit

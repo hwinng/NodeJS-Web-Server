@@ -28,17 +28,6 @@ exports.create = async (req, res) => {
 };
 
 exports.postCreate = async (req, res) => {
-  // req.body.id = shortid.generate();
-  
-
-  // var newUser = new User({_id : req.body.id,
-  //                         name: req.body.name,
-  //                         avatar: req.body.avatar});
-                
-  // newUser.save(function (err, res) {
-  //     if (err) return console.error(err);
-  //     console.log(res.name + " saved to database collection.");
-  //   });
   await User.create({
     name: req.body.name,
     avatar: req.file ? req.file.filename : ''
@@ -85,11 +74,5 @@ exports.postProfile = async (req, res) => {
   var id = req.params.id;
   await User.findByIdAndUpdate(id, {$set: {name: req.body.name,
                                     avatar: req.file.path.split("\\").slice(1).join('/')}});
-// $set: { name: req.body.name, avatar:}});
-  // db.get("users")
-  //   .find({ id: id })
-  //   .assign({ name: req.body.name })
-  //   .assign({ avatar: req.file.path.split("\\").slice(1).join('/')})
-  //   .write();
   res.redirect("/users");
 };
